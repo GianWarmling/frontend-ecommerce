@@ -1,0 +1,22 @@
+.home-container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+}
+
+input { 
+    margin: 6px 0; 
+    padding:6px; 
+    width:100%; 
+    max-width:400px; 
+}
+
+button { 
+    padding:6px 10px; 
+}
+table { 
+    width:100%; 
+    border-collapse: collapse; 
+    margin-top:12px; 
+}
