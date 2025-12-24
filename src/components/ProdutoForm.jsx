@@ -1,75 +1,60 @@
-import React, { useEffect, useState } from "react";
-import { criarProduto, atualizarProduto } from "../api/produtos";
+import { useEffect, useState } from "react";
 
-const ProdutoForm = ({ produtoEditando, onSucess }) => {
-    const [produto, setProduto] = useState({
+function ProdutoForm({ produto, onSubmit, textoBotao = "Salvar" }) {
+    const [form, setForm] = useState({
         nome: "",
         descricao: "",
-        categoria: "",
         preco: "",
         estoque: ""
-    });
+    })
 
     useEffect(() => {
-        if (produtoEditando) {
-            setProduto({
-                nome: produtoEditando.nome,
-                descricao: produtoEditando.descricao,
-                categoria: produtoEditando.categoria,
-                preco: produtoEditando.preco,
-                estoque: produtoEditando.estoque
-            });
+        if (produto) {
+            setForm({
+                nome: produto.nome ?? "",
+                descricao: produto.descricao ?? "",
+                preco: produto.preco ?? "",
+                estoque: produto.estoque ?? ""
+            })
         }
-    }, [produtoEditando]);
+    }, [produto])
 
-    const handleChange = (e) => {
-        setProduto({
-            ...produto,
-            [e.target.name]: e.target.value
-        });
-    };
+    function handleChange(e) {
+        const { name, value } = e.target
+        setForm({ ...form, [name]: value })
+    }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const payload = {
-            ...produto,
-            preco: Number(produto.preco),
-            estoque: Number(produto.estoque)
-        };
-
-        if (produtoEditando) {
-            await atualizarProduto(produtoEditando.id, payload);
-        } else {
-            await criarProduto(payload);
-        }
-
-        setProduto({
-            nome: "",
-            descricao: "",
-            categoria: "",
-            preco: "",
-            estoque: ""
-        });
-
-        onSucess();
-    };
+    function handleSubmit(e) {
+        e.preventDefault()
+        if (!onSubmit) return
+        onSubmit(form)
+    }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>{produtoEditando ? "Editar Produto" : "Criar Produto"}</h2>
+        <form onSubmit={handleSubmit} style={{ maxWidth: 400 }}>
+            <div>
+                <label>Nome do produto</label>
+                <input type="text" name="nome" value={form.nome} onChange={handleChange} required />
+            </div>
 
-            <input name="nome" value={produto.nome} onChange={handleChange} placeholder="Nome" />
-            <input name="descricao" value={produto.descricao} onChange={handleChange} placeholder="Descrição" />
-            <input name="categoria" value={produto.categoria} onChange={handleChange} placeholder="Categoria" />
-            <input name="preco" value={produto.preco} onChange={handleChange} placeholder="Preço" />
-            <input name="estoque" value={produto.estoque} onChange={handleChange} placeholder="Estoque" />
+            <div>
+                <label>Descrição</label>
+                <input type="text" name="descricao" value={form.descricao} onChange={handleChange} required />
+            </div>
 
-            <button type="submit">
-                {produtoEditando ? "Atualizar" : "Salvar"}
-            </button>
+            <div>
+                <label>Preço</label>
+                <input type="number" name="preco" value={form.preco} onChange={handleChange} step="0.01" required />
+            </div>
+
+            <div>
+                <label>Estoque</label>
+                <input type="number" name="estoque" value={form.estoque} onChange={handleChange} required />
+            </div>
+
+            <button type="submit">{textoBotao}</button>
         </form>
-    );
-};
+    )
+}
 
 export default ProdutoForm;
