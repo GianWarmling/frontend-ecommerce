@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { listarProdutos, deletarProduto } from "../api/produtos";
 import { useNavigate } from "react-router-dom";
 import ProdutoItem from "../components/ProdutoItem";
+import { Plus } from "lucide-react";
+import HeaderPage from "../components/HeaderPage";
 
 function ProdutoList() {
     const [produtos, setProdutos] = useState([])
@@ -23,21 +25,20 @@ function ProdutoList() {
     }
 
     return (
-        <div>
-            <h1>Produtos</h1>
+        <div className="mx-3 mt-4">
+            <HeaderPage titulo="Produtos" subTitulo="Gerencie o catálogo da sua loja" textoBotao="Novo Produto" urlAcao="/produtos/novo"/>
 
-            <button onClick={() => navigate("/produtos/novo")}>
-                Novo Produto
-            </button>
-
-            {produtos.map(produto => (
-                <ProdutoItem
-                    key={produto.id}
-                    produto={produto}
-                    onEditar={() => navigate(`/produtos/editar/${produto.id}`)}
-                    onExcluir={() => excluir(produto.id)}
-                />
-            ))}
+            <div className="grid gap-4">
+                {produtos.map(produto => (
+                    <ProdutoItem
+                        
+                        key={produto.id}
+                        produto={produto}
+                        onEditar={() => navigate(`/produtos/editar/${produto.id}`)}
+                        onExcluir={() => excluir(produto.id)}
+                    />
+                ))}
+            </div>
         </div>
     )
 }
