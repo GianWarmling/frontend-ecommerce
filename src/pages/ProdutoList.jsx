@@ -29,7 +29,7 @@ function ProdutoList() {
             <HeaderPage titulo="Produtos" subTitulo="Gerencie o catálogo da sua loja" textoBotao="Novo Produto" urlAcao="/produtos/novo"/>
 
             <div className="grid gap-4">
-                {produtos.map(produto => (
+                {!!produtos && produtos.map(produto => (
                     <ProdutoItem
                         
                         key={produto.id}

@@ -51,7 +51,7 @@ function PedidoList() {
                                         </span>
                                     </div>
                                     <div className="flex flex-wrap gap-2 mt-3">
-                                        {p.itens.map((i) => (
+                                        {!!p && p.itens.map((i) => (
                                             <span className="bg-gray-200 text-xs font-medium p-1 rounded-md" key={i.produto.produtoId}>
                                                 {i.produto.nome}
                                             </span>

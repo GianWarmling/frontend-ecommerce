@@ -31,7 +31,7 @@ function ClienteList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {clientes.map(c => (
+                        {!!clientes && clientes.map(c => (
                             <tr className="hover:bg-gray-100 not-last:border-b not-last:border-gray-300" key={c.id}>
                                 <td className="px-6 py-4">
                                     <div className="flex items-center gap-3">
